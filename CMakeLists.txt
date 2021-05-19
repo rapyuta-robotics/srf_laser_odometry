@@ -2,53 +2,35 @@ project(srf_laser_odometry)
 
 CMAKE_MINIMUM_REQUIRED(VERSION 3.3)
 
-## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
-## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS
-  roscpp
-  rospy
-  nav_msgs
-  sensor_msgs
-  std_msgs
-  tf
+find_package(catkin REQUIRED
+  # COMPONENTS
+  #   roscpp
+  #   rospy
+  #   nav_msgs
+  #   sensor_msgs
+  #   std_msgs
+  #   tf
 )
 
 ## System dependencies are found with CMake's conventions
-find_package(cmake_modules REQUIRED)
+# find_package(cmake_modules REQUIRED)
 find_package(Eigen3 REQUIRED)
 
-
-###################################
-## catkin specific configuration ##
-###################################
-## The catkin_package macro generates cmake config files for your package
-## Declare things to be passed to dependent projects
-## INCLUDE_DIRS: uncomment this if you package contains header files
-## LIBRARIES: libraries you create in this project that dependent projects also need
-## CATKIN_DEPENDS: catkin_packages dependent projects also need
-## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
  INCLUDE_DIRS include
  LIBRARIES ${PROJECT_NAME}
- CATKIN_DEPENDS nav_msgs roscpp sensor_msgs std_msgs tf
+#  CATKIN_DEPENDS nav_msgs roscpp sensor_msgs std_msgs tf
  DEPENDS EIGEN3
 )
 
-## Specify additional locations of header files
-## Your package locations should be listed before other locations
 include_directories(include)
-
 include_directories(SYSTEM
-  ${catkin_INCLUDE_DIRS}
+  # ${catkin_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIRS}
 )
 
 add_library(${PROJECT_NAME}
   src/laser_odometry_refscans.cpp
-)
-target_link_libraries(${PROJECT_NAME}
-  ${catkin_LIBRARIES}
 )
 
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 11)
@@ -82,7 +64,7 @@ set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_EXTENSIONS OFF)
 install(TARGETS ${PROJECT_NAME} #${PROJECT_NAME}_node
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+  # RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
 install(DIRECTORY include/${PROJECT_NAME}/
