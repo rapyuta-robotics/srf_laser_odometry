@@ -21,8 +21,8 @@
 *  More Info: http://mapir.isa.uma.es/work/SRF-Odometry
 *********************************************************************/
 
-#ifndef CLaserOdometry2D_H
-#define CLaserOdometry2D_H
+#ifndef _SRF_LASER_ODOMETRY_SRF_LASER_ODOMETRY_SRF_NODE_H_
+#define _SRF_LASER_ODOMETRY_SRF_LASER_ODOMETRY_SRF_NODE_H_
 
 #include <ros/ros.h>
 #include <stdlib.h>
@@ -96,4 +96,4 @@ protected:
     void initPoseCallBack(const nav_msgs::Odometry::ConstPtr& new_initPose);
 };
 
-#endif
+#endif // _SRF_LASER_ODOMETRY_SRF_LASER_ODOMETRY_SRF_NODE_H_

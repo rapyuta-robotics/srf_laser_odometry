@@ -21,27 +21,32 @@
 *  More Info: http://mapir.isa.uma.es/work/SRF-Odometry
 *********************************************************************/
 
+#ifndef _SRF_LASER_ODOMETRY_SRF_LASER_ODOMETRY_LASER_ODOMETRY_REFSCANS_H_
+#define _SRF_LASER_ODOMETRY_SRF_LASER_ODOMETRY_LASER_ODOMETRY_REFSCANS_H_
 
-#include <mrpt/poses/CPose2D.h>
-#include <mrpt/utils/CTicTac.h>
+#include <vector>
 #include <Eigen/Dense>
-#include <iostream>
-
-
+#include <Eigen/Geometry>
+#include <Eigen/StdVector>
 
 class SRF_RefS {
 public:
 
+    using Pose2d = Eigen::Isometry2f;
+
+    template <typename T>
+    using vector_t = std::vector<T, Eigen::aligned_allocator<T>>;
+
     //Scans and cartesian coordinates: 1 - New, 2 - Old, 3 - Ref
     Eigen::ArrayXf range_wf;
-    std::vector<Eigen::ArrayXf> range_1, range_2, range_3;
-    std::vector<Eigen::ArrayXf> range_12, range_13, range_warped;
-    std::vector<Eigen::ArrayXf> xx_1, xx_2, xx_3, xx_12, xx_13, xx_warped;
-    std::vector<Eigen::ArrayXf> yy_1, yy_2, yy_3, yy_12, yy_13, yy_warped;
-    std::vector<Eigen::ArrayXf> range_3_warpedTo2, xx_3_warpedTo2, yy_3_warpedTo2;
+    vector_t<Eigen::ArrayXf> range_1, range_2, range_3;
+    vector_t<Eigen::ArrayXf> range_12, range_13, range_warped;
+    vector_t<Eigen::ArrayXf> xx_1, xx_2, xx_3, xx_12, xx_13, xx_warped;
+    vector_t<Eigen::ArrayXf> yy_1, yy_2, yy_3, yy_12, yy_13, yy_warped;
+    vector_t<Eigen::ArrayXf> range_3_warpedTo2, xx_3_warpedTo2, yy_3_warpedTo2;
 
     //Rigid transformations and velocities (twists: vx, vy, w)
-    std::vector<Eigen::MatrixXf> transformations; //T13
+    vector_t<Pose2d> transformations; //T13
     Eigen::Matrix3f overall_trans_prev; // T23
     Eigen::Vector3f kai_abs, kai_loc;
     Eigen::Vector3f kai_loc_old, kai_loc_level;
@@ -71,15 +76,10 @@ public:
 
 
     //Laser poses (most recent and previous)
-    mrpt::poses::CPose2D laser_pose;
-    mrpt::poses::CPose2D laser_oldpose;
+    Pose2d laser_pose;
+    Pose2d laser_oldpose;
 	bool test;
     unsigned int method; //0 - consecutive scan alignment, 1 - keyscan alignment, 2 - multi-scan (hybrid) alignment
-
-    //To measure runtimes
-    mrpt::utils::CTicTac	clock;
-    float                   runtime;
-
 
     //Methods
     void initialize(unsigned int size, float FOV_rad, unsigned int odo_method);
@@ -103,3 +103,5 @@ public:
     void updateReferenceScan();
 	void odometryCalculation();
 };
+
+#endif // _SRF_LASER_ODOMETRY_SRF_LASER_ODOMETRY_LASER_ODOMETRY_REFSCANS_H_
