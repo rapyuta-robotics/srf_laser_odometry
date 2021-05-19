@@ -34,7 +34,7 @@
 #include <mrpt_bridge/pose.h>
 
 // SRF
-#include "laser_odometry_refscans.h"
+#include "srf_laser_odometry/laser_odometry_refscans.h"
 
 // MRPT related headers
 #include <mrpt/version.h>

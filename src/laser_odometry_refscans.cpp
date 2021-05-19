@@ -9,19 +9,19 @@
 *  Date: January 2016
 *
 * This pkgs offers a fast and reliable estimation of 2D odometry based on planar laser scans.
-* SRF is a fast and precise method to estimate the planar motion of a lidar from consecutive range scans. 
-* SRF presents a dense method for estimating planar motion with a laser scanner. Starting from a symmetric 
-* representation of geometric consistency between scans, we derive a precise range flow constraint and 
-* express the motion of the scan observations as a function of the rigid motion of the scanner. 
-* In contrast to existing techniques, which align the incoming scan with either the previous one or the last 
-* selected keyscan, we propose a combined and efficient formulation to jointly align all these three scans at 
-* every iteration. This new formulation preserves the advantages of keyscan-based strategies but is more robust 
+* SRF is a fast and precise method to estimate the planar motion of a lidar from consecutive range scans.
+* SRF presents a dense method for estimating planar motion with a laser scanner. Starting from a symmetric
+* representation of geometric consistency between scans, we derive a precise range flow constraint and
+* express the motion of the scan observations as a function of the rigid motion of the scanner.
+* In contrast to existing techniques, which align the incoming scan with either the previous one or the last
+* selected keyscan, we propose a combined and efficient formulation to jointly align all these three scans at
+* every iteration. This new formulation preserves the advantages of keyscan-based strategies but is more robust
 * against suboptimal selection of keyscans and the presence of moving objects.
 *
 *  More Info: http://mapir.isa.uma.es/work/SRF-Odometry
 *********************************************************************/
 
-#include "laser_odometry_refscans.h"
+#include "srf_laser_odometry/laser_odometry_refscans.h"
 
 
 
@@ -41,7 +41,7 @@ void SRF_RefS::initialize(unsigned int size, float FOV_rad, unsigned int odo_met
     iter_irls = 8;
     no_ref_scan = true;
     new_ref_scan = true;
-	
+
     //Resize original range scan
     range_wf.resize(width);
 
@@ -111,7 +111,7 @@ void SRF_RefS::initialize(unsigned int size, float FOV_rad, unsigned int odo_met
 void SRF_RefS::createScanPyramid()
 {
 	const float max_range_dif = 0.3f;
-	
+
     //Push scan back
     range_1.swap(range_2); xx_1.swap(xx_2); yy_1.swap(yy_2);
 
@@ -132,14 +132,14 @@ void SRF_RefS::createScanPyramid()
         if (i == 0)
 		{
 			for (unsigned int u = 0; u < cols_i; u++)
-            {	
+            {
 				const float dcenter = range_wf(u);
-					
+
 				//Inner pixels
                 if ((u>1)&&(u<cols_i-2))
-                {		
+                {
 					if (dcenter > 0.f)
-					{	
+					{
                         float sum = 0.f, weight = 0.f;
 
 						for (int l=-2; l<3; l++)
@@ -163,15 +163,15 @@ void SRF_RefS::createScanPyramid()
                 else
                 {
                     if (dcenter > 0.f)
-					{						
+					{
                         float sum = 0.f, weight = 0.f;
 
-						for (int l=-2; l<3; l++)	
+						for (int l=-2; l<3; l++)
 						{
 							const int indu = u+l;
 							if ((indu>=0)&&(indu<cols_i))
 							{
-								const float abs_dif = abs(range_wf(indu)-dcenter);										
+								const float abs_dif = abs(range_wf(indu)-dcenter);
 								if (abs_dif < max_range_dif)
 								{
 									const float aux_w = g_mask[2+l]*(max_range_dif - abs_dif);
@@ -192,7 +192,7 @@ void SRF_RefS::createScanPyramid()
         //                              Downsampling
         //-----------------------------------------------------------------------------
         else
-        {            
+        {
             const unsigned int cols_prev_level = range_1[i_1].rows();
 
             //Odd number of elements in the previous level
@@ -276,7 +276,7 @@ void SRF_RefS::createScanPyramid()
         }
 
         //Calculate coordinates "xy" of the points
-        for (unsigned int u = 0; u < cols_i; u++) 
+        for (unsigned int u = 0; u < cols_i; u++)
 		{
             if (range_1[i](u) > 0.f)
 			{
@@ -302,7 +302,7 @@ void SRF_RefS::createScanPyramid()
 }
 
 void SRF_RefS::calculateCoord()
-{		
+{
     null_12.fill(false);
     null_13.fill(false);
     num_valid_range = 0;
@@ -346,7 +346,7 @@ void SRF_RefS::calculateCoord()
 }
 
 void SRF_RefS::calculateRangeDerivatives()
-{	
+{
     //Compute distances between points
     Eigen::ArrayXf rtita_12(cols_i), rtita_13(cols_i);
     rtita_12.fill(1.f); rtita_13.fill(1.f);
@@ -392,7 +392,7 @@ void SRF_RefS::computeWeights()
 	//The maximum weight size is reserved at the constructor
     weights_12.fill(0.f);
     weights_13.fill(0.f);
-	
+
     //Parameters for error_linearization - (kd = 1.f, k2d = 0.02f, ssigma = 100*e-4f works!)
     const float kd = 0.01f;
     const float k2d = 2e-4f;
@@ -400,11 +400,11 @@ void SRF_RefS::computeWeights()
 //    const float kd = 1.f;
 //    const float k2d = 0.02f; //0.5 no, 0.3 no, 0.1 no, 0.05 no, 0.02 no (better between 0.2 and 0.05)
 //    const float sensor_sigma = 100.f*4e-4f; //100.f*4e-4f, 200 is too much
-	
+
 	for (unsigned int u = 1; u < cols_i-1; u++)
     {
         if (null_12(u) == false)
-		{	
+		{
 			//							Compute derivatives
 			//-----------------------------------------------------------------------
             //const float ini_dtita = range_2[image_level](u+1) - range_2[image_level](u-1);
@@ -1210,7 +1210,7 @@ void SRF_RefS::filterLevelSolution()
         printf("\n Eigensolver couldn't find a solution. Pose is not updated");
         return;
     }
-	
+
     //First, we have to describe both the new linear and angular speeds in the "eigenvector" basis
     //-------------------------------------------------------------------------------------------------
     Matrix3f Bii = eigensolver.eigenvectors();

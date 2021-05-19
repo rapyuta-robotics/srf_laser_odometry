@@ -12,7 +12,7 @@ endif()
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS  
+find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   nav_msgs
@@ -54,7 +54,7 @@ ENDIF()
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
- ##INCLUDE_DIRS include
+ #INCLUDE_DIRS include
  LIBRARIES laser_odometry
  CATKIN_DEPENDS nav_msgs roscpp sensor_msgs std_msgs tf mrpt_bridge
  DEPENDS system_lib
@@ -65,6 +65,7 @@ catkin_package(
 ##include_directories(include)
 
 include_directories(
+  include
   ${catkin_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIRS}
@@ -73,7 +74,7 @@ include_directories(
 ## Declare a cpp executable
 add_executable(srf_laser_odometry_node
     src/srf_node.cpp
-    src/srf_node.h    
+    src/srf_node.h
     src/laser_odometry_refscans.cpp
     src/laser_odometry_refscans.h
     )

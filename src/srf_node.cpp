@@ -9,19 +9,19 @@
 *  Date: January 2016
 *
 * This pkgs offers a fast and reliable estimation of 2D odometry based on planar laser scans.
-* SRF is a fast and precise method to estimate the planar motion of a lidar from consecutive range scans. 
-* SRF presents a dense method for estimating planar motion with a laser scanner. Starting from a symmetric 
-* representation of geometric consistency between scans, we derive a precise range flow constraint and 
-* express the motion of the scan observations as a function of the rigid motion of the scanner. 
-* In contrast to existing techniques, which align the incoming scan with either the previous one or the last 
-* selected keyscan, we propose a combined and efficient formulation to jointly align all these three scans at 
-* every iteration. This new formulation preserves the advantages of keyscan-based strategies but is more robust 
+* SRF is a fast and precise method to estimate the planar motion of a lidar from consecutive range scans.
+* SRF presents a dense method for estimating planar motion with a laser scanner. Starting from a symmetric
+* representation of geometric consistency between scans, we derive a precise range flow constraint and
+* express the motion of the scan observations as a function of the rigid motion of the scanner.
+* In contrast to existing techniques, which align the incoming scan with either the previous one or the last
+* selected keyscan, we propose a combined and efficient formulation to jointly align all these three scans at
+* every iteration. This new formulation preserves the advantages of keyscan-based strategies but is more robust
 * against suboptimal selection of keyscans and the presence of moving objects.
 *
 *  More Info: http://mapir.isa.uma.es/work/SRF-Odometry
 *********************************************************************/
 
-#include "srf_node.h"
+#include "srf_laser_odometry/srf_node.h"
 
 using namespace mrpt;
 using namespace mrpt::math;
@@ -54,7 +54,7 @@ CLaserOdometry2D::CLaserOdometry2D()
     pn.param<std::string>("operation_mode", operation_mode, "HYBRID");  //CS=consecutiveScans, KS=keyScans, HYBRID=threeScansWithKeyScan
 
     //Publishers and Subscribers
-    //--------------------------    
+    //--------------------------
     laser_sub = n.subscribe<sensor_msgs::LaserScan>(laser_scan_topic,1,&CLaserOdometry2D::LaserCallBack,this);
     odom_pub = pn.advertise<nav_msgs::Odometry>(odom_topic, 5);
     laser_pub = pn.advertise<sensor_msgs::LaserScan>("srf_laser_truncated", 5);
@@ -104,9 +104,9 @@ bool CLaserOdometry2D::scan_available()
 
 
 void CLaserOdometry2D::Init()
-{    
+{
     ROS_INFO("[SRF] Got first Laser Scan .... Configuring node");
-    const unsigned int scan_size = last_scan.ranges.size();             // Num of samples (size) of the scan laser    
+    const unsigned int scan_size = last_scan.ranges.size();             // Num of samples (size) of the scan laser
     const float fov = fabs(last_scan.angle_max - last_scan.angle_min);  // Horizontal Laser's FOV
 
     //Init core class with Laser specs and corresponding operation_mode
@@ -319,7 +319,7 @@ void CLaserOdometry2D::LaserCallBack(const sensor_msgs::LaserScan::ConstPtr& new
                         srf_obj.range_wf(i) = 0.f; //invalid measurement
                         last_scan.ranges[i] = 0.0;
                     }
-                    else                    
+                    else
                         srf_obj.range_wf(i) = last_scan.ranges[i];
                 }
 
