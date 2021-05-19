@@ -1,6 +1,6 @@
 /*********************************************************************
 *
-* Software License Agreement (GPLv3 License)
+* SPDX-License-Identifier: LGPL-3.0
 *
 *  Authors: Mariano Jaimez Tarifa and Javier Monroy
 *           MAPIR group, University of Malaga, Spain
