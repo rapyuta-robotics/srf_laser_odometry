@@ -138,7 +138,7 @@ void SRF_RefS::createScanPyramid()
 				//Inner pixels
                 if ((u>1)&&(u<cols_i-2))
                 {
-					if (dcenter > 0.f)
+					if (std::isfinite(dcenter) && dcenter > 0.f)
 					{
                         float sum = 0.f, weight = 0.f;
 
@@ -162,7 +162,7 @@ void SRF_RefS::createScanPyramid()
                 //Boundary
                 else
                 {
-                    if (dcenter > 0.f)
+                    if (std::isfinite(dcenter) && dcenter > 0.f)
 					{
                         float sum = 0.f, weight = 0.f;
 
@@ -205,7 +205,7 @@ void SRF_RefS::createScanPyramid()
                     //Inner pixels
                     if ((u>0)&&(u<cols_i-1))
                     {
-                        if (dcenter > 0.f)
+                        if (std::isfinite(dcenter) && dcenter > 0.f)
                         {
                             float sum = 0.f, weight = 0.f;
 
@@ -229,7 +229,7 @@ void SRF_RefS::createScanPyramid()
                     //Boundary
                     else
                     {
-                        if (dcenter > 0.f)
+                        if (std::isfinite(dcenter) && dcenter > 0.f)
                         {
                             float sum = 0.f, weight = 0.f;
                             const unsigned int cols_i2 = range_1[i_1].rows();
