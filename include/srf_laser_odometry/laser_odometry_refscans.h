@@ -80,6 +80,7 @@ public:
     //Laser poses (most recent and previous)
     Pose2d laser_pose;
     Pose2d laser_oldpose;
+    Pose2d last_increment;
 	bool test;
     unsigned int method; //0 - consecutive scan alignment, 1 - keyscan alignment, 2 - multi-scan (hybrid) alignment
 
@@ -104,6 +105,9 @@ public:
 	void PoseUpdate();
     void updateReferenceScan();
 	void odometryCalculation();
+
+    inline const Pose2d& getIncrement() const { return last_increment; }
+    const Eigen::Matrix3f& getIncrementCovariance() const { return cov_odo; }
 };
 
 } // namespace srf

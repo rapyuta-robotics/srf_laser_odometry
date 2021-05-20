@@ -1305,6 +1305,7 @@ void SRF_RefS::PoseUpdate()
     pose_aux_2D.translation() << acu_trans(0,2), acu_trans(1,2);
     laser_pose = laser_pose * pose_aux_2D;
 
+    last_increment = pose_aux_2D;
 
 
     //                  Compute kai_loc_old
