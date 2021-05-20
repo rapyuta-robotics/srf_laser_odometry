@@ -29,6 +29,8 @@
 #include <Eigen/Geometry>
 #include <Eigen/StdVector>
 
+namespace srf {
+
 class SRF_RefS {
 public:
 
@@ -52,8 +54,8 @@ public:
     Eigen::Vector3f kai_loc_old, kai_loc_level;
 
     //Solver
-    Eigen::MatrixXf A,Aw;
-    Eigen::VectorXf B,Bw;
+    Eigen::MatrixXf A, Aw;
+    Eigen::VectorXf B, Bw;
     Eigen::Matrix3f cov_odo;
 
     //Aux variables
@@ -103,5 +105,7 @@ public:
     void updateReferenceScan();
 	void odometryCalculation();
 };
+
+} // namespace srf
 
 #endif // _SRF_LASER_ODOMETRY_SRF_LASER_ODOMETRY_LASER_ODOMETRY_REFSCANS_H_

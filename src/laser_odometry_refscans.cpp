@@ -23,6 +23,8 @@
 
 #include "srf_laser_odometry/laser_odometry_refscans.h"
 
+namespace srf {
+
 template <typename T> inline T sign(const T x) { return x<T(0) ? T(-1):T(1); }
 template <typename T> inline T square(const T x) { return x*x; }
 
@@ -1347,3 +1349,4 @@ void SRF_RefS::updateReferenceScan()
     }
 }
 
+} // namespace srf
