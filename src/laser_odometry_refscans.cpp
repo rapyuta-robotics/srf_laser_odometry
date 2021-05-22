@@ -1345,7 +1345,6 @@ void SRF_RefS::updateReferenceScan()
 //            acu_trans = transformations[i-1]*acu_trans;
         overall_trans_prev = acu_trans;
 
-        printf("\n New keyframe inserted!!!");
         new_ref_scan = true;
     }
 }
