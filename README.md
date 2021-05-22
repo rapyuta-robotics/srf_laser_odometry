@@ -1,6 +1,10 @@
 # srf_laser_odometry
 **Robust Planar Odometry Based on Symmetric Range Flow and Multi-Scan Alignment**
 
+> :heavy_exclamation_mark:
+> This repo is a fork. It only contains an mrpt-free SRF library meant to be consumed through the [laser_odometry](https://github.com/artivis/laser_odometry) package (see [laser_odometry_srf](https://github.com/artivis/laser_odometry_srf)).
+> :heavy_exclamation_mark:
+
 This pkgs offers a fast and reliable estimation of 2D odometry based on planar laser scans.
 
 SRF is the continuation of [RF2O](https://github.com/MAPIRlab/rf2o_laser_odometry), a fast and precise method to estimate the planar motion of a lidar from consecutive range scans. SRF presents a dense method for estimating planar motion with a laser scanner. Starting from a symmetric representation of geometric consistency between scans, we derive a precise range flow constraint and express the motion of the scan observations as a function of the rigid motion of the scanner. In contrast to existing techniques, which align the incoming scan with either the previous one or the last selected keyscan, we propose a combined and efficient formulation to jointly align all these three scans at every iteration. This new formulation preserves the advantages of keyscan-based strategies but is more robust against suboptimal selection of keyscans and the presence of moving objects.
