@@ -1201,7 +1201,7 @@ void SRF_RefS::filterLevelSolution()
     Eigen::SelfAdjointEigenSolver<Eigen::Matrix3f> eigensolver(cov_odo);
     if (eigensolver.info() != Eigen::Success)
     {
-        printf("\n Eigensolver couldn't find a solution. Pose is not updated");
+        // printf("\n Eigensolver couldn't find a solution. Pose is not updated");
         return;
     }
 
