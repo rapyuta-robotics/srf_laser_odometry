@@ -938,8 +938,9 @@ void SRF_RefS::performWarping()
                 //Very close pixel
                 if (std::abs(std::round(uwarp) - uwarp) < 0.05f)
                 {
-                    range_warped[image_level](std::round(uwarp)) += range_w;
-                    wacu(std::round(uwarp)) += 1.f;
+                    const Eigen::Index idx = static_cast<Eigen::Index>(std::round(uwarp));
+                    range_warped[image_level](idx) += range_w;
+                    wacu(idx) += 1.f;
                 }
                 else
                 {
